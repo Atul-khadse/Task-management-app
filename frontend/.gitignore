@@ -1,3 +1,12 @@
+
+
+
+
+
+# enverment veriable
+.env
+
+
 # Logs
 logs
 *.log

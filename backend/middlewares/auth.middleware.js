@@ -16,7 +16,8 @@ module.exports.authUser = async (req ,res , next) => {
         req.user = user;
         return next();
     } catch (error) {
-        
+        console.error(err);
+        return res.status(500).json({msg: "Internal Server Error" });
     }
 
 }
