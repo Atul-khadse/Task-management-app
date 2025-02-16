@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const connectDatabase = require("./db/db");
 const userRouter = require('./routers/user.router');
+const profileRoutes = require("./routers/profile.router");
+
 
 
 
@@ -15,6 +17,7 @@ connectDatabase();
 
 
 app.use("/api/auth", userRouter);
+app.use("/api/profile", profileRoutes);
 
 
 app.get("/", (req, res) => {
