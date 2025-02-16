@@ -4,17 +4,11 @@ const jwt = require("jsonwebtoken");
 
 
 const userSchema = new mongoose.Schema({
-    fullname:{
-        firstname:{
-            type:String,
-            required:true,
-            minlength:[3, 'first name must be at least 3 character']
-        },
-        lastname:{
-            type:String,
-            minlength:[3, 'lest name must be at least 3 character']
-        }
-    },
+    name: {
+        type: String,
+        required: [true, "Please enter your name"],
+        trim: true
+      },
     email:{
         type:String,
         required:true,
@@ -46,6 +40,17 @@ userSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
 
+userSchema.statics.validateEmail = function (email) {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
 
-const userModel = mongoose.model("user",userSchema);
+userSchema.statics.validateObjectId = function (string) {
+  return mongoose.Types.ObjectId.isValid(string);
+}
+
+const userModel = mongoose.model("userModel",userSchema);
 module.exports = userModel;
