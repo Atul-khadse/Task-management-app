@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const UserLogin = ({ login }) => {
   const [email, setEmail] = useState("");
@@ -15,11 +17,34 @@ const UserLogin = ({ login }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle login logic here
-      navigate("/dashboard");
+      const userData = {
+        email,
+        password,
+      };
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, userData);
+        if (response.status === 200) {
+          const { token, username } = response.data;
+          Cookies.set("token", token);
+          localStorage.setItem("token", token);
+          localStorage.setItem("username", username); // Store username in localStorage
+          alert("Login successful");
+          navigate("/dashboard");
+        } else {
+          alert("Login failed");
+        }
+      } catch (error) {
+        console.error("Login error:", error.response ? error.response.data : error.message);
+        if (error.response && error.response.data && error.response.data.msg) {
+          setErrors({ server: error.response.data.msg });
+          alert(error.response.data.msg);
+        } else {
+          alert("Login failed");
+        }
+      }
     }
   };
 
@@ -37,7 +62,7 @@ const UserLogin = ({ login }) => {
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full p-3 border rounded mb-3 text-black"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -47,7 +72,7 @@ const UserLogin = ({ login }) => {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full p-3 border rounded mb-3 text-black"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

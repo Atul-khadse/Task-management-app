@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserSignup = ({ showUserLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let newErrors = {};
@@ -91,7 +93,7 @@ const UserSignup = ({ showUserLogin }) => {
 
         <p className="text-center mt-2">
           Already have an account?{" "}
-          <span className="text-blue-500 cursor-pointer" onClick={showUserLogin}>
+          <span className="text-blue-500 cursor-pointer" onClick={() => navigate('/login')}>
             Login
           </span>
         </p>
