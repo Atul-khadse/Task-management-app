@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Welcome from "./components/Welcome";
 import UserLogin from "./components/UserLogin";
 import AdminLogin from "./components/AdminLogin";
@@ -20,7 +21,7 @@ const App = () => {
   };
 
   const showUserSignup = () => {
-    setView("userSignup"); // Fixed the incorrect view name
+    setView("userSignup");
   };
 
   const login = () => {
@@ -31,11 +32,13 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-slate-500 to-slate-800">
-      {view === "welcome" && <Welcome showUserLogin={showUserLogin} showAdminLogin={showAdminLogin} />}
-      {view === "userLogin" && <UserLogin login={login} showUserSignup={showUserSignup} />}
-      {view === "userSignup" && <UserSignup showUserLogin={showUserLogin} />} {/* Fixed incorrect reference */}
-      {view === "adminLogin" && <AdminLogin />}
-      {view === "dashboard" && <Dashboard userType={userType} />}
+      <Routes>
+        <Route path="/" element={<Welcome showUserLogin={showUserLogin} showAdminLogin={showAdminLogin} />} />
+        <Route path="/login" element={<UserLogin login={login} showUserSignup={showUserSignup} />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/signup" element={<UserSignup showUserLogin={showUserLogin} />} />
+        <Route path="/dashboard" element={<Dashboard userType={userType} />} />
+      </Routes>
     </div>
   );
 };
