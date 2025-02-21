@@ -1,10 +1,10 @@
 import { useState } from "react";
+import axios from "axios";
 
 const UserSignup = ({ showUserLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -12,16 +12,37 @@ const UserSignup = ({ showUserLogin }) => {
     if (!username) newErrors.username = "Username is required";
     if (!email) newErrors.email = "Email is required";
     if (!password) newErrors.password = "Password is required";
-    if (password !== confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle signup logic here
+      const userData = {
+        username,
+        email,
+        password,
+      };
+      console.log("Sending user data:", userData);
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/signup`, userData);
+        console.log("Server response:", response);
+        if (response.status === 200) {
+          alert("Signup successful");
+          showUserLogin();
+        } else {
+          alert("Signup failed");
+        }
+      } catch (error) {
+        console.error("Signup error:", error.response ? error.response.data : error.message);
+        if (error.response && error.response.data && error.response.data.msg) {
+          setErrors({ server: error.response.data.msg });
+          alert(error.response.data.msg);
+        } else {
+          alert("Signup failed");
+        }
+      }
     }
   };
 
@@ -35,7 +56,7 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="text"
             placeholder="Enter username"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-white "
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -45,7 +66,7 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -55,25 +76,15 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && <p className="text-red-500">{errors.password}</p>}
 
-          <label className="block mb-2 font-medium">Confirm Password:</label>
-          <input
-            type="password"
-            placeholder="Confirm password"
-            className="w-full p-3 border rounded mb-3"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500">{errors.confirmPassword}</p>
-          )}
+          {errors.server && <p className="text-red-500">{errors.server}</p>}
 
-<button className="w-full text-white py-3 mt-2 bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg transition-all duration-300 transform hover:scale-110 hover:shadow-sm active:scale-95">
+          <button className="w-full text-white py-3 mt-2 bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg transition-all duration-300 transform hover:scale-110 hover:shadow-sm active:scale-95">
             SIGN UP
           </button>
         </form>

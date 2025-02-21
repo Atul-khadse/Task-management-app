@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const UserLogin = ({ login, showUserSignup }) => {
+const UserLogin = ({ login }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let newErrors = {};
@@ -15,7 +17,14 @@ const UserLogin = ({ login, showUserSignup }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (validateForm()) login();
+    if (validateForm()) {
+      // Handle login logic here
+      navigate("/dashboard");
+    }
+  };
+
+  const showUserSignup = () => {
+    navigate("/signup");
   };
 
   return (
@@ -28,7 +37,7 @@ const UserLogin = ({ login, showUserSignup }) => {
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-black"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -38,7 +47,7 @@ const UserLogin = ({ login, showUserSignup }) => {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-black"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

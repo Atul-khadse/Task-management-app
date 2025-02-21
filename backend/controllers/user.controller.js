@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt');
 
 exports.signup = async(req , res) => {
     try {
-        const { name, email, password } = req.body;
-        if(!name || !email || !password){
+        const { username, email, password } = req.body;
+        if(!username || !email || !password){
             return res.status(400).json({ msg: "please fill all the field"})
         }
 
-        if(typeof name !== "string" || typeof email !== "string" || typeof password !== "string"){
+        if(typeof username !== "string" || typeof email !== "string" || typeof password !== "string"){
             return res.status(400).json({ msg :"please send string value only"});
         }
 
@@ -28,7 +28,7 @@ exports.signup = async(req , res) => {
        }
 
        const hashedPassword = await userModel.hashPassword(password);
-       await userModel.create({name, email , password: hashedPassword});
+       await userModel.create({username, email , password: hashedPassword});
        res.status(200).json({ msg :"acount has been created for you"});
 
     } catch (err) {
