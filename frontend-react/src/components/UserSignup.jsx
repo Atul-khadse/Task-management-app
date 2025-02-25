@@ -58,7 +58,7 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="text"
             placeholder="Enter username"
-            className="w-full p-3 border rounded mb-3 text-white "
+            className="w-full p-3 border rounded mb-3 text-black "
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -68,7 +68,7 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full p-3 border rounded mb-3 text-white"
+            className="w-full p-3 border rounded mb-3 text-black"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -78,7 +78,7 @@ const UserSignup = ({ showUserLogin }) => {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full p-3 border rounded mb-3 text-white"
+            className="w-full p-3 border rounded mb-3 text-black"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
