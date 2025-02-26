@@ -1,59 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Dashboard = () => {
+const Dashboard = ({ username }) => {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([]);
-  const [filteredTasks, setFilteredTasks] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [showTaskForm, setShowTaskForm] = useState(false);
-  const [filters, setFilters] = useState({ search: "", priority: "", status: "" });
-
-  // Default username if not logged in
-  const username = "Guest";
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    axios.get("/tasks")
-      .then(response => {
-        if (Array.isArray(response.data)) {
-          setTasks(response.data);
-        } else {
-          console.error("Fetched tasks is not an array:", response.data);
-          setTasks([]);
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching tasks:", error);
-        setTasks([]); // Prevents breaking if API fails
-      });
-  }, []);
+    const token = localStorage.getItem("token");
+    const storedUsername = localStorage.getItem("username");
+    if (!token) {
+      navigate("/login");
+    } else {
+      setUsername(storedUsername);
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
-    axios.post("/logout").then(() => {
-      navigate("/");
-    }).catch(error => console.error("Error logging out:", error));
-  };
-
-  const addTask = (newTask) => {
-    axios.post("/tasks", newTask)
-      .then(response => setTasks([...tasks, response.data]))
-      .catch(error => console.error("Error adding task:", error));
-    setShowTaskForm(false);
-  };
-
-  const filterTasks = () => {
-    let filtered = tasks;
-    if (filters.search) {
-      filtered = filtered.filter((task) => task.title.toLowerCase().includes(filters.search.toLowerCase()));
-    }
-    if (filters.priority) {
-      filtered = filtered.filter((task) => task.priority === filters.priority);
-    }
-    if (filters.status) {
-      filtered = filtered.filter((task) => task.status === filters.status);
-    }
-    setFilteredTasks(filtered);
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    Cookies.remove("token");
+    navigate("/login");
   };
 
   return (

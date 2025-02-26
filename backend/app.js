@@ -5,6 +5,7 @@ const connectDatabase = require("./db/db");
 const userRouter = require('./routers/user.router');
 const profileRoutes = require("./routers/profile.router");
 const taskRoutes = require("./routers/task.router");
+const adminRoutes = require('./routers/admin.route');
 
 
 
@@ -20,6 +21,7 @@ connectDatabase();
 app.use("/api/auth", userRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
     res.send("hello jee");

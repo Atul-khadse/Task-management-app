@@ -1,9 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
 
   const validateForm = () => {
     let newErrors = {};
@@ -13,9 +15,18 @@ const AdminLogin = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (validateForm()) alert("Admin logged in (No Dashboard for Admin)");
+    if (validateForm()) {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/login`, { email, password });
+        setMessage("Login successful");
+        alert("Login successful"); // Add alert for successful login
+        // Handle successful login (e.g., store token, redirect)
+      } catch (error) {
+        setMessage(error.response.data.message || "Login failed");
+      }
+    }
   };
 
   return (
@@ -23,12 +34,14 @@ const AdminLogin = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold text-center mb-4">Admin Login</h2>
 
+        {message && <p className="text-center mb-4">{message}</p>}
+
         <form onSubmit={handleLogin}>
           <label className="block mb-2 font-medium">Email:</label>
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -38,7 +51,7 @@ const AdminLogin = () => {
           <input
             type="password"
             placeholder="Enter password"
-            className="w-full p-3 border rounded mb-3"
+            className="w-full p-3 border rounded mb-3 text-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -27,10 +27,9 @@ const UserLogin = ({ login }) => {
       try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, userData);
         if (response.status === 200) {
-          const { token, username } = response.data;
+          const token = response.data.token;
           Cookies.set("token", token);
           localStorage.setItem("token", token);
-          localStorage.setItem("username", username); // Store username in localStorage
           alert("Login successful");
           navigate("/dashboard");
         } else {
