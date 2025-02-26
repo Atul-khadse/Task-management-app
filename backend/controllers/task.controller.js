@@ -78,6 +78,6 @@ exports.deleteTask = async (req, res) => {
         res.status(200).json({ msg: "task deleted successfully" });
     } catch (error) {
         console.error(error);
-        return res.status(400).json({ msg: "internal server error" });
+        return res.status(500).json({ msg: "internal server error" });
     }
 };
