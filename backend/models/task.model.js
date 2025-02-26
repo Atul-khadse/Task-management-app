@@ -22,21 +22,30 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    status: {
-        type: Number,
-        enum: [0, 1, 2], // 0: Incomplete, 1: In Progress, 2: Completed
+    priority: {
+        type: String,
+        enum: ["Low", "Medium", "High"],
         required: true,
-        default: 0
+        default: "Low"
+    },
+    status: {
+        type: String,
+        enum: ["To-Do", "In Progress", "Completed"],
+        required: true,
+        default: "To-Do"
     }
 });
 
 taskSchema.methods.getStatus = function() {
-    if (this.status === 1) {
-        return "In Progress";
-    } else if (this.status === 2) {
-        return "Completed";
-    } else {
-        return "Incomplete";
+    return this.status;
+};
+
+taskSchema.methods.saveTask = async function() {
+    try {
+        await this.save();
+        return { success: true, task: this };
+    } catch (error) {
+        return { success: false, error };
     }
 };
 
