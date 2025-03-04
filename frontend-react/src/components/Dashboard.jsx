@@ -130,7 +130,7 @@ const Dashboard = ({ username }) => {
       {/* Header Section */}
       <div className="w-full bg-white shadow-md p-4 flex justify-between items-center rounded-lg transform transition duration-300 hover:shadow-lg">
         <h2 className="text-xl font-semibold">Welcome, {username}</h2>
-        <span>Welcome, {storedUsername}</span>
+        <span> {storedUsername}</span>
         <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 transform hover:scale-105" onClick={handleLogout}>Logout</button>
       </div>
 
@@ -206,25 +206,27 @@ const Dashboard = ({ username }) => {
       {/* Task List */}
       <div className="bg-white shadow-md p-6 rounded-lg w-full max-w-4xl mt-4 transform transition duration-300 hover:shadow-lg">
         <h3 className="text-lg font-semibold mb-4">Task List</h3>
-        {Array.isArray(filteredTasks) && filteredTasks.length > 0 ? filteredTasks.map((task) => (
-          <div key={task._id} className="p-3 bg-gray-200 rounded-md mb-2 flex justify-between items-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
-            <span>{task.title}</span>
-            <div>
-              <button className="bg-blue-500 text-white p-2 rounded mr-2 hover:bg-blue-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(false); }}>Show Detail</button>
-              <button className="bg-green-500 text-white p-2 rounded mr-2 hover:bg-green-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(true); }}>Update</button>
-              <button className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-300 transform hover:scale-105" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+        <div className="max-h-96 overflow-y-auto scrollbar-hide">
+          {Array.isArray(filteredTasks) && filteredTasks.length > 0 ? filteredTasks.map((task) => (
+            <div key={task._id} className="p-3 bg-gray-200 rounded-md mb-2 flex justify-between items-center transform transition duration-300 hover:scale-105 hover:shadow-lg hover:z-10">
+              <span>{task.title}</span>
+              <div className="flex space-x-2">
+                <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(false); }}>Show Detail</button>
+                <button className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(true); }}>Update</button>
+                <button className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-300 transform hover:scale-105" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+              </div>
             </div>
-          </div>
-        )) : Array.isArray(tasks) && tasks.map((task) => (
-          <div key={task._id} className="p-3 bg-gray-200 rounded-md mb-2 flex justify-between items-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
-            <span>{task.title}</span>
-            <div>
-              <button className="bg-blue-500 text-white p-2 rounded mr-2 hover:bg-blue-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(false); }}>Show Detail</button>
-              <button className="bg-green-500 text-white p-2 rounded mr-2 hover:bg-green-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(true); }}>Update</button>
-              <button className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-300 transform hover:scale-105" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+          )) : Array.isArray(tasks) && tasks.map((task) => (
+            <div key={task._id} className="p-3 bg-gray-200 rounded-md mb-2 flex justify-between items-center transform transition duration-300 hover:scale-105 hover:shadow-lg hover:z-10">
+              <span>{task.title}</span>
+              <div className="flex space-x-2">
+                <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(false); }}>Show Detail</button>
+                <button className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300 transform hover:scale-105" onClick={() => { setSelectedTask(task); setIsUpdateMode(true); }}>Update</button>
+                <button className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-300 transform hover:scale-105" onClick={() => handleDeleteTask(task._id)}>Delete</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Task Detail Popup */}
