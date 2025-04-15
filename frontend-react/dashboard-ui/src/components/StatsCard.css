@@ -1,0 +1,35 @@
+.stats-card {
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stats-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-count {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.stats-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+}

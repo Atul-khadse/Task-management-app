@@ -1,0 +1,51 @@
+.reminder-card {
+  background-color: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.reminder-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.reminder-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reminder-item {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.reminder-item-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.reminder-item-details {
+  font-size: 0.875rem;
+  color: #6b7280; /* subtle gray */
+}
+
+.remind-btn {
+  margin-top: 8px;
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.3s ease;
+}
+
+.remind-btn:hover {
+  background-color: #2563eb; /* darker blue */
+}
